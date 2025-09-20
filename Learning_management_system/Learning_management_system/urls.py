@@ -15,8 +15,41 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.http import HttpResponse
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from django.conf import settings
+from django.conf.urls.static import static
+
+def home(request):
+    return HttpResponse("Learning Management API Dveloped By Wisdom Darlington Ndata")
 
 urlpatterns = [
+    path('', home),
     path('admin/', admin.site.urls),
+
+    # path("auth/", include("accounts.urls")),
+
+    # JWT auth
+    path('auth/jwt/create/', TokenObtainPairView.as_view(), name='jwt-create'),
+    path('auth/jwt/refresh/', TokenRefreshView.as_view(), name='jwt-create'),
+    
+    path('auth/', include('djoser.urls')), # user management
+    path('auth/', include('djoser.urls.authtoken')), # If using token authentication
+    path('auth/', include('djoser.urls.jwt')) # JWT-specific endpoints
 ]
+
+# urlpatterns = [
+#     path('', home),
+#     path('admin/', admin.site.urls),
+
+#     # Djoser authentication
+#     path('auth/', include('djoser.urls')),  # default user management (register, etc.)
+#     path('auth/', include('djoser.urls.authtoken')),  # Token authentication
+#     path('auth/', include('djoser.urls.jwt')),  # JWT authentication
+
+#     # JWT endpoints (explicit if you want direct access)
+#     path('auth/jwt/create/', TokenObtainPairView.as_view(), name='jwt-create'),
+#     path('auth/jwt/refresh/', TokenRefreshView.as_view(), name='jwt-refresh'),
+# ]
+
