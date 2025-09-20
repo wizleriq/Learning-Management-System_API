@@ -1,4 +1,4 @@
-from django.shortcuts import render,
+from django.shortcuts import render
 from .serializer import RegisterSerializer, ProfileSerializer
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
@@ -14,5 +14,5 @@ class RegisterListView(generics.ListAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-class ProfileListCreateAPI(generics.ListCreateAPIView):
+# class ProfileListCreateAPI(generics.ListCreateAPIView):
     
